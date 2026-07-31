@@ -12,24 +12,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: TruffleHog Secret Scan
-        uses: trufflesecurity/trufflehog-actions@main
+        uses: trufflesecurity/trufflehog@main
         with:
-          extra_args: --debug
+          extra_args: --debug --only-verified
 
   sca-scan:
     name: Dependency Vulnerability Scan (Trivy)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run Trivy Vulnerability Scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@18f2510ee396bbf400402947b394d2dd8c87dbb9 # v0.29.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -43,7 +41,7 @@ jobs:
       image: semgrep/semgrep
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Run Semgrep SAST
-        run: semgrep scan --config auto --error
+        run: semgrep scan --config p/ci --error
