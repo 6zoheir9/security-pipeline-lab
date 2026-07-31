@@ -45,3 +45,23 @@ jobs:
 
       - name: Run Semgrep SAST
         run: semgrep scan --config p/ci --exclude='.github' --error
+
+  sbom-generate:
+    name: Generate SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Generate SBOM with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          format: 'spdx-json'
+          output: 'sbom.spdx.json'
+
+      - name: Upload SBOM Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-artifact
+          path: sbom.spdx.json
