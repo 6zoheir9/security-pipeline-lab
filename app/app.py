@@ -1,4 +1,5 @@
 import os
+import subprocess
 from flask import Flask, request, render_template_string
 
 app = Flask(__name__)
@@ -14,6 +15,13 @@ def search():
     user_input = request.args.get('q', '')
     # nosemgrep: python.flask.security.audit.render-template-string.render-template-string
     return render_template_string("<h1>Searching for: {{ query }}</h1>", query=user_input)
+
+@app.route('/ping')
+def ping():
+    host = request.args.get('host', '')
+    # VULNERABLE: unsanitized user input passed to a shell command
+    result = subprocess.run(f"ping -c 1 {host}", shell=True, capture_output=True)
+    return result.stdout
 
 @app.route('/vulnerable-search')
 def vulnerable_search():
