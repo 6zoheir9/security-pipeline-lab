@@ -15,6 +15,13 @@ def search():
     # nosemgrep: python.flask.security.audit.render-template-string.render-template-string
     return render_template_string("<h1>Searching for: {{ query }}</h1>", query=user_input)
 
+@app.route('/vulnerable-search')
+def vulnerable_search():
+    user_input = request.args.get('q', '')
+    # VULNERABLE: raw user input concatenated directly into the template source (SSTI)
+    template = "<h1>Searching for: " + user_input + "</h1>"
+    return render_template_string(template)
+
 if __name__ == "__main__":
     # nosemgrep: python.flask.security.audit.app-run-param-config.avoid_app_run_with_bad_host
     app.run(host='0.0.0.0', port=5000)
