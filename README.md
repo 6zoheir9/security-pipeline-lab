@@ -88,12 +88,3 @@ semgrep scan --config p/ci
 
 docker run --rm -v $(pwd):/app aquasec/trivy fs /app
 ```
-
-## Roadmap
-
-- [x] Validate detection with real, deliberately introduced vulnerabilities
-- [x] Pin `actions/checkout` consistently across all jobs
-- [x] Pin `trufflehog` and `trivy-action` to fixed commits
-- [ ] Pin the Semgrep container image (`semgrep/semgrep`, currently unpinned/`:latest`)
-- [ ] Enforce this workflow as a required status check in branch protection
-- [ ] Feed findings into an automated triage layer
